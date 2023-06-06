@@ -53,6 +53,7 @@ import IBlobMetadataStore, {
   ChangeContainerLeaseResponse,
   ContainerModel,
   CreateSnapshotResponse,
+  FilterBlobModel,
   GetBlobPropertiesRes,
   GetContainerAccessPolicyResponse,
   GetContainerPropertiesResponse,
@@ -67,6 +68,7 @@ import IBlobMetadataStore, {
   SetContainerAccessPolicyOptions
 } from "./IBlobMetadataStore";
 import PageWithDelimiter from "./PageWithDelimiter";
+import FilterBlobPage from "./FilterBlobPage";
 
 // tslint:disable: max-classes-per-file
 class ServicesModel extends Model {}
@@ -1223,6 +1225,64 @@ export default class SqlBlobMetadataStore implements IBlobMetadataStore {
       )
         .validate(new BlobReadLeaseValidator(leaseAccessConditions))
         .sync(new BlobLeaseSyncer(blobModel));
+    });
+  }
+  
+  public async filterBlobs(
+    context: Context,
+    account: string,
+    container: string,
+    where?: string,
+    maxResults: number = DEFAULT_LIST_BLOBS_MAX_RESULTS,
+    marker?: string,
+  ): Promise<[FilterBlobModel[], string | undefined]> {
+    return this.sequelize.transaction(async (t) => {
+      await this.assertContainerExists(context, account, container, t);
+
+      const whereQuery: any = {
+        accountName: account,
+        containerName: container
+      };
+
+      if (marker !== undefined) {
+        if (whereQuery.blobName !== undefined) {
+          whereQuery.blobName[Op.gt] = marker;
+        } else {
+          whereQuery.blobName = {
+            [Op.gt]: marker
+          };
+        }
+      }
+      whereQuery.deleting = 0;
+
+      const leaseUpdateMapper = (model: BlobsModel) => {
+        const blobModel = this.convertDbModelToBlobModel(model);
+        return LeaseFactory.createLeaseState(
+          new BlobLeaseAdapter(blobModel),
+          context
+        ).sync(new BlobLeaseSyncer(blobModel));
+      };
+
+      // fill the page by possibly querying multiple times
+      const page = new FilterBlobPage<BlobsModel>(maxResults);
+
+      const nameItem = (item: BlobsModel): string => {
+        return this.getModelValue<string>(item, "blobName", true);
+      };
+
+      const readPage = async (off: number): Promise<BlobsModel[]> => {
+        return await BlobsModel.findAll({
+          where: whereQuery as any,
+          order: [["blobName", "ASC"]],
+          transaction: t,
+          limit: maxResults,
+          offset: off
+        });
+      };
+
+      const [blobItems, nextMarker] = await page.fill(readPage, nameItem);
+
+      return [blobItems.map(leaseUpdateMapper), nextMarker];
     });
   }
 

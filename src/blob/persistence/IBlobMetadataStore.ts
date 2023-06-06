@@ -4,6 +4,7 @@ import IDataStore from "../../common/IDataStore";
 import IGCExtentProvider from "../../common/IGCExtentProvider";
 import * as Models from "../generated/artifacts/models";
 import Context from "../generated/Context";
+import { FilterBlobItem } from "../generated/artifacts/models";
 
 /**
  * This model describes a chunk inside a persistency extent for a given extent ID.
@@ -152,6 +153,8 @@ interface IGetBlobPropertiesRes {
   blobCommittedBlockCount?: number; // AppendBlobOnly
 }
 export type GetBlobPropertiesRes = IGetBlobPropertiesRes;
+
+export type FilterBlobModel = FilterBlobItem;
 
 // The response model for each lease-related request.
 interface IBlobLeaseResponse {
@@ -500,7 +503,16 @@ export interface IBlobMetadataStore
     marker?: string,
     includeSnapshots?: boolean,
     includeUncommittedBlobs?: boolean
-  ): Promise<[BlobModel[], string | undefined]>;
+  ): Promise<[BlobModel[], string | undefined]>;  
+
+  filterBlobs(
+    context: Context,
+    account: string,
+    container: string,
+    where?: string,
+    maxResults?: number,
+    marker?: string,
+  ): Promise<[FilterBlobModel[], string | undefined]>;
 
   /**
    * Create blob item in persistency layer. Will replace if blob exists.
