@@ -13,10 +13,10 @@ import * as Models from "../artifacts/models";
 import Context from "../Context";
 
 export default interface IBlockBlobHandler {
-  upload(body: NodeJS.ReadableStream, contentLength: number, options: Models.BlockBlobUploadOptionalParams, context: Context): Promise<Models.BlockBlobUploadResponse>;
-  putBlobFromUrl(contentLength: number, copySource: string, options: Models.BlockBlobPutBlobFromUrlOptionalParams, context: Context): Promise<Models.BlockBlobPutBlobFromUrlResponse>;
-  stageBlock(blockId: string, contentLength: number, body: NodeJS.ReadableStream, options: Models.BlockBlobStageBlockOptionalParams, context: Context): Promise<Models.BlockBlobStageBlockResponse>;
-  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, options: Models.BlockBlobStageBlockFromURLOptionalParams, context: Context): Promise<Models.BlockBlobStageBlockFromURLResponse>;
-  commitBlockList(blocks: Models.BlockLookupList, options: Models.BlockBlobCommitBlockListOptionalParams, context: Context): Promise<Models.BlockBlobCommitBlockListResponse>;
-  getBlockList(options: Models.BlockBlobGetBlockListOptionalParams, context: Context): Promise<Models.BlockBlobGetBlockListResponse>;
+  upload(body: NodeJS.ReadableStream, contentLength: number, containerName: string, blob: string, options: Models.BlockBlobUploadOptionalParams, context: Context): Promise<Models.BlockBlobUploadResponse>;
+  putBlobFromUrl(contentLength: number, copySource: string, containerName: string, blob: string, options: Models.BlockBlobPutBlobFromUrlOptionalParams, context: Context): Promise<Models.BlockBlobPutBlobFromUrlResponse>;
+  stageBlock(blockId: string, contentLength: number, body: NodeJS.ReadableStream, containerName: string, blob: string, options: Models.BlockBlobStageBlockOptionalParams, context: Context): Promise<Models.BlockBlobStageBlockResponse>;
+  stageBlockFromURL(blockId: string, contentLength: number, sourceUrl: string, containerName: string, blob: string, options: Models.BlockBlobStageBlockFromURLOptionalParams, context: Context): Promise<Models.BlockBlobStageBlockFromURLResponse>;
+  commitBlockList(blocks: Models.BlockLookupList, containerName: string, blob: string, options: Models.BlockBlobCommitBlockListOptionalParams, context: Context): Promise<Models.BlockBlobCommitBlockListResponse>;
+  getBlockList(containerName: string, blob: string, options: Models.BlockBlobGetBlockListOptionalParams, context: Context): Promise<Models.BlockBlobGetBlockListResponse>;
 }

@@ -8,7 +8,7 @@ export interface IHandlerPath {
   arguments: string[];
 }
 
-const operationHandlerMapping: { [key: number]: IHandlerPath } = {};
+const operationHandlerMapping: {[key: number]: IHandlerPath} = {};
 
 operationHandlerMapping[Operation.Service_SetProperties] = {
   arguments: [
@@ -55,7 +55,7 @@ operationHandlerMapping[Operation.Service_GetAccountInfo] = {
 operationHandlerMapping[Operation.Service_GetAccountInfoWithHead] = {
   arguments: [],
   handler: "serviceHandler",
-  method: "getAccountInfo"
+  method: "getAccountInfoWithHead"
 };
 operationHandlerMapping[Operation.Service_SubmitBatch] = {
   arguments: [
@@ -76,6 +76,7 @@ operationHandlerMapping[Operation.Service_FilterBlobs] = {
 };
 operationHandlerMapping[Operation.Container_Create] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -83,6 +84,7 @@ operationHandlerMapping[Operation.Container_Create] = {
 };
 operationHandlerMapping[Operation.Container_GetProperties] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -90,13 +92,15 @@ operationHandlerMapping[Operation.Container_GetProperties] = {
 };
 operationHandlerMapping[Operation.Container_GetPropertiesWithHead] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
-  method: "getProperties"
+  method: "getPropertiesWithHead"
 };
 operationHandlerMapping[Operation.Container_Delete] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -104,6 +108,7 @@ operationHandlerMapping[Operation.Container_Delete] = {
 };
 operationHandlerMapping[Operation.Container_SetMetadata] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -111,6 +116,7 @@ operationHandlerMapping[Operation.Container_SetMetadata] = {
 };
 operationHandlerMapping[Operation.Container_GetAccessPolicy] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -118,6 +124,7 @@ operationHandlerMapping[Operation.Container_GetAccessPolicy] = {
 };
 operationHandlerMapping[Operation.Container_SetAccessPolicy] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -125,6 +132,7 @@ operationHandlerMapping[Operation.Container_SetAccessPolicy] = {
 };
 operationHandlerMapping[Operation.Container_Restore] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -135,6 +143,7 @@ operationHandlerMapping[Operation.Container_SubmitBatch] = {
     "body",
     "contentLength",
     "multipartContentType",
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -142,6 +151,7 @@ operationHandlerMapping[Operation.Container_SubmitBatch] = {
 };
 operationHandlerMapping[Operation.Container_FilterBlobs] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -149,6 +159,7 @@ operationHandlerMapping[Operation.Container_FilterBlobs] = {
 };
 operationHandlerMapping[Operation.Container_AcquireLease] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -157,6 +168,7 @@ operationHandlerMapping[Operation.Container_AcquireLease] = {
 operationHandlerMapping[Operation.Container_ReleaseLease] = {
   arguments: [
     "leaseId",
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -165,6 +177,7 @@ operationHandlerMapping[Operation.Container_ReleaseLease] = {
 operationHandlerMapping[Operation.Container_RenewLease] = {
   arguments: [
     "leaseId",
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -172,6 +185,7 @@ operationHandlerMapping[Operation.Container_RenewLease] = {
 };
 operationHandlerMapping[Operation.Container_BreakLease] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -181,6 +195,7 @@ operationHandlerMapping[Operation.Container_ChangeLease] = {
   arguments: [
     "leaseId",
     "proposedLeaseId",
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -188,6 +203,7 @@ operationHandlerMapping[Operation.Container_ChangeLease] = {
 };
 operationHandlerMapping[Operation.Container_ListBlobFlatSegment] = {
   arguments: [
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -196,6 +212,7 @@ operationHandlerMapping[Operation.Container_ListBlobFlatSegment] = {
 operationHandlerMapping[Operation.Container_ListBlobHierarchySegment] = {
   arguments: [
     "delimiter",
+    "containerName",
     "options"
   ],
   handler: "containerHandler",
@@ -203,18 +220,22 @@ operationHandlerMapping[Operation.Container_ListBlobHierarchySegment] = {
 };
 operationHandlerMapping[Operation.Container_GetAccountInfo] = {
   arguments: [
+    "containerName"
   ],
   handler: "containerHandler",
   method: "getAccountInfo"
 };
 operationHandlerMapping[Operation.Container_GetAccountInfoWithHead] = {
   arguments: [
+    "containerName"
   ],
   handler: "containerHandler",
-  method: "getAccountInfo"
+  method: "getAccountInfoWithHead"
 };
 operationHandlerMapping[Operation.Blob_Download] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -222,6 +243,8 @@ operationHandlerMapping[Operation.Blob_Download] = {
 };
 operationHandlerMapping[Operation.Blob_GetProperties] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -229,6 +252,8 @@ operationHandlerMapping[Operation.Blob_GetProperties] = {
 };
 operationHandlerMapping[Operation.Blob_Delete] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -236,6 +261,8 @@ operationHandlerMapping[Operation.Blob_Delete] = {
 };
 operationHandlerMapping[Operation.Blob_Undelete] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -244,6 +271,8 @@ operationHandlerMapping[Operation.Blob_Undelete] = {
 operationHandlerMapping[Operation.Blob_SetExpiry] = {
   arguments: [
     "expiryOptions",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -251,6 +280,8 @@ operationHandlerMapping[Operation.Blob_SetExpiry] = {
 };
 operationHandlerMapping[Operation.Blob_SetHTTPHeaders] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -258,6 +289,8 @@ operationHandlerMapping[Operation.Blob_SetHTTPHeaders] = {
 };
 operationHandlerMapping[Operation.Blob_SetImmutabilityPolicy] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -265,6 +298,8 @@ operationHandlerMapping[Operation.Blob_SetImmutabilityPolicy] = {
 };
 operationHandlerMapping[Operation.Blob_DeleteImmutabilityPolicy] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -273,6 +308,8 @@ operationHandlerMapping[Operation.Blob_DeleteImmutabilityPolicy] = {
 operationHandlerMapping[Operation.Blob_SetLegalHold] = {
   arguments: [
     "legalHold",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -280,6 +317,8 @@ operationHandlerMapping[Operation.Blob_SetLegalHold] = {
 };
 operationHandlerMapping[Operation.Blob_SetMetadata] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -287,6 +326,8 @@ operationHandlerMapping[Operation.Blob_SetMetadata] = {
 };
 operationHandlerMapping[Operation.Blob_AcquireLease] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -295,6 +336,8 @@ operationHandlerMapping[Operation.Blob_AcquireLease] = {
 operationHandlerMapping[Operation.Blob_ReleaseLease] = {
   arguments: [
     "leaseId",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -303,6 +346,8 @@ operationHandlerMapping[Operation.Blob_ReleaseLease] = {
 operationHandlerMapping[Operation.Blob_RenewLease] = {
   arguments: [
     "leaseId",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -312,6 +357,8 @@ operationHandlerMapping[Operation.Blob_ChangeLease] = {
   arguments: [
     "leaseId",
     "proposedLeaseId",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -319,6 +366,8 @@ operationHandlerMapping[Operation.Blob_ChangeLease] = {
 };
 operationHandlerMapping[Operation.Blob_BreakLease] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -326,6 +375,8 @@ operationHandlerMapping[Operation.Blob_BreakLease] = {
 };
 operationHandlerMapping[Operation.Blob_CreateSnapshot] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -334,6 +385,8 @@ operationHandlerMapping[Operation.Blob_CreateSnapshot] = {
 operationHandlerMapping[Operation.Blob_StartCopyFromURL] = {
   arguments: [
     "copySource",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -342,6 +395,8 @@ operationHandlerMapping[Operation.Blob_StartCopyFromURL] = {
 operationHandlerMapping[Operation.Blob_CopyFromURL] = {
   arguments: [
     "copySource",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -350,6 +405,8 @@ operationHandlerMapping[Operation.Blob_CopyFromURL] = {
 operationHandlerMapping[Operation.Blob_AbortCopyFromURL] = {
   arguments: [
     "copyId",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -358,6 +415,8 @@ operationHandlerMapping[Operation.Blob_AbortCopyFromURL] = {
 operationHandlerMapping[Operation.Blob_SetTier] = {
   arguments: [
     "tier",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -365,18 +424,24 @@ operationHandlerMapping[Operation.Blob_SetTier] = {
 };
 operationHandlerMapping[Operation.Blob_GetAccountInfo] = {
   arguments: [
+    "containerName",
+    "blob"
   ],
   handler: "blobHandler",
   method: "getAccountInfo"
 };
 operationHandlerMapping[Operation.Blob_GetAccountInfoWithHead] = {
   arguments: [
+    "containerName",
+    "blob"
   ],
   handler: "blobHandler",
-  method: "getAccountInfo"
+  method: "getAccountInfoWithHead"
 };
 operationHandlerMapping[Operation.Blob_Query] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -384,6 +449,8 @@ operationHandlerMapping[Operation.Blob_Query] = {
 };
 operationHandlerMapping[Operation.Blob_GetTags] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -391,6 +458,8 @@ operationHandlerMapping[Operation.Blob_GetTags] = {
 };
 operationHandlerMapping[Operation.Blob_SetTags] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blobHandler",
@@ -400,6 +469,8 @@ operationHandlerMapping[Operation.PageBlob_Create] = {
   arguments: [
     "contentLength",
     "blobContentLength",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "pageBlobHandler",
@@ -409,6 +480,8 @@ operationHandlerMapping[Operation.PageBlob_UploadPages] = {
   arguments: [
     "body",
     "contentLength",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "pageBlobHandler",
@@ -417,6 +490,8 @@ operationHandlerMapping[Operation.PageBlob_UploadPages] = {
 operationHandlerMapping[Operation.PageBlob_ClearPages] = {
   arguments: [
     "contentLength",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "pageBlobHandler",
@@ -428,6 +503,8 @@ operationHandlerMapping[Operation.PageBlob_UploadPagesFromURL] = {
     "sourceRange",
     "contentLength",
     "range",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "pageBlobHandler",
@@ -435,6 +512,8 @@ operationHandlerMapping[Operation.PageBlob_UploadPagesFromURL] = {
 };
 operationHandlerMapping[Operation.PageBlob_GetPageRanges] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "pageBlobHandler",
@@ -442,6 +521,8 @@ operationHandlerMapping[Operation.PageBlob_GetPageRanges] = {
 };
 operationHandlerMapping[Operation.PageBlob_GetPageRangesDiff] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "pageBlobHandler",
@@ -450,6 +531,8 @@ operationHandlerMapping[Operation.PageBlob_GetPageRangesDiff] = {
 operationHandlerMapping[Operation.PageBlob_Resize] = {
   arguments: [
     "blobContentLength",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "pageBlobHandler",
@@ -458,6 +541,8 @@ operationHandlerMapping[Operation.PageBlob_Resize] = {
 operationHandlerMapping[Operation.PageBlob_UpdateSequenceNumber] = {
   arguments: [
     "sequenceNumberAction",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "pageBlobHandler",
@@ -466,6 +551,8 @@ operationHandlerMapping[Operation.PageBlob_UpdateSequenceNumber] = {
 operationHandlerMapping[Operation.PageBlob_CopyIncremental] = {
   arguments: [
     "copySource",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "pageBlobHandler",
@@ -474,6 +561,8 @@ operationHandlerMapping[Operation.PageBlob_CopyIncremental] = {
 operationHandlerMapping[Operation.AppendBlob_Create] = {
   arguments: [
     "contentLength",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "appendBlobHandler",
@@ -483,6 +572,8 @@ operationHandlerMapping[Operation.AppendBlob_AppendBlock] = {
   arguments: [
     "body",
     "contentLength",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "appendBlobHandler",
@@ -492,6 +583,8 @@ operationHandlerMapping[Operation.AppendBlob_AppendBlockFromUrl] = {
   arguments: [
     "sourceUrl",
     "contentLength",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "appendBlobHandler",
@@ -499,6 +592,8 @@ operationHandlerMapping[Operation.AppendBlob_AppendBlockFromUrl] = {
 };
 operationHandlerMapping[Operation.AppendBlob_Seal] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "appendBlobHandler",
@@ -508,6 +603,8 @@ operationHandlerMapping[Operation.BlockBlob_Upload] = {
   arguments: [
     "body",
     "contentLength",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blockBlobHandler",
@@ -517,6 +614,8 @@ operationHandlerMapping[Operation.BlockBlob_PutBlobFromUrl] = {
   arguments: [
     "contentLength",
     "copySource",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blockBlobHandler",
@@ -527,6 +626,8 @@ operationHandlerMapping[Operation.BlockBlob_StageBlock] = {
     "blockId",
     "contentLength",
     "body",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blockBlobHandler",
@@ -537,6 +638,8 @@ operationHandlerMapping[Operation.BlockBlob_StageBlockFromURL] = {
     "blockId",
     "contentLength",
     "sourceUrl",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blockBlobHandler",
@@ -545,6 +648,8 @@ operationHandlerMapping[Operation.BlockBlob_StageBlockFromURL] = {
 operationHandlerMapping[Operation.BlockBlob_CommitBlockList] = {
   arguments: [
     "blocks",
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blockBlobHandler",
@@ -552,6 +657,8 @@ operationHandlerMapping[Operation.BlockBlob_CommitBlockList] = {
 };
 operationHandlerMapping[Operation.BlockBlob_GetBlockList] = {
   arguments: [
+    "containerName",
+    "blob",
     "options"
   ],
   handler: "blockBlobHandler",

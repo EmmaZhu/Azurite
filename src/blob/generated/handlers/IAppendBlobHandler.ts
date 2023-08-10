@@ -13,8 +13,8 @@ import * as Models from "../artifacts/models";
 import Context from "../Context";
 
 export default interface IAppendBlobHandler {
-  create(contentLength: number, options: Models.AppendBlobCreateOptionalParams, context: Context): Promise<Models.AppendBlobCreateResponse>;
-  appendBlock(body: NodeJS.ReadableStream, contentLength: number, options: Models.AppendBlobAppendBlockOptionalParams, context: Context): Promise<Models.AppendBlobAppendBlockResponse>;
-  appendBlockFromUrl(sourceUrl: string, contentLength: number, options: Models.AppendBlobAppendBlockFromUrlOptionalParams, context: Context): Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
-  seal(options: Models.AppendBlobSealOptionalParams, context: Context): Promise<Models.AppendBlobSealResponse>;
+  create(contentLength: number, containerName: string, blob: string, options: Models.AppendBlobCreateOptionalParams, context: Context): Promise<Models.AppendBlobCreateResponse>;
+  appendBlock(body: NodeJS.ReadableStream, contentLength: number, containerName: string, blob: string, options: Models.AppendBlobAppendBlockOptionalParams, context: Context): Promise<Models.AppendBlobAppendBlockResponse>;
+  appendBlockFromUrl(sourceUrl: string, contentLength: number, containerName: string, blob: string, options: Models.AppendBlobAppendBlockFromUrlOptionalParams, context: Context): Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
+  seal(containerName: string, blob: string, options: Models.AppendBlobSealOptionalParams, context: Context): Promise<Models.AppendBlobSealResponse>;
 }
